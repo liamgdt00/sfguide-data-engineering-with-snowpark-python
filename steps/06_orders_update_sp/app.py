@@ -29,7 +29,7 @@ def merge_order_updates(session):
 
     source = session.table('HARMONIZED.POS_FLATTENED_V_STREAM')
     target = session.table('HARMONIZED.ORDERS')
-
+    
     # TODO: Is the if clause supposed to be based on "META_UPDATED_AT"?
     cols_to_update = {c: source[c] for c in source.schema.names if "METADATA" not in c}
     metadata_col_to_update = {"META_UPDATED_AT": F.current_timestamp()}
@@ -40,6 +40,7 @@ def merge_order_updates(session):
                         [F.when_matched().update(updates), F.when_not_matched().insert(updates)])
 
     _ = session.sql('ALTER WAREHOUSE HOL_WH SET WAREHOUSE_SIZE = XSMALL').collect()
+
 
 def main(session: Session) -> str:
     # Create the ORDERS table and ORDERS_STREAM stream if they don't exist
