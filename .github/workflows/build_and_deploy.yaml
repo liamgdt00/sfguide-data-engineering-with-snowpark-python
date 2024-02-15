@@ -36,6 +36,7 @@ jobs:
           SNOWSQL_DATABASE: ${{ secrets.SNOWSQL_DATABASE }}
         run: |
           cd $GITHUB_WORKSPACE
+          echo "Workspace Path : $GITHUB_WORKSPACE"
           echo "[connections.dev]" > config
           echo "accountname = $SNOWSQL_ACCOUNT" >> config
           echo "username = $SNOWSQL_USER" >> config
